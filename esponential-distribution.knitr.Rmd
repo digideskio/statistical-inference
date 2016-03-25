@@ -5,8 +5,8 @@ date: "25 March 2016"
 output: pdf_document
 ---
 
-# Intro
-We will investigate the distribution of averages of 40 exponentials using 1,000 simulations with the following parameters:
+# Overview
+We will investigate the distribution of averages of 40 exponentials with $lambda$ =0.2 using 1,000 trials.
 
 ```{r}
 lambda <- 0.2
@@ -14,15 +14,16 @@ n      <- 40
 nsim   <- 1000
 ```
 
-The theoretical mean of the exponential distribution and the standard deviation are:
+The mean of the exponential distribution and the standard deviation are:
 ```{r}
 mu <- 1/lambda
 sd <- 1/lambda
 ```
 
-## Show the sample mean and compare it to the theoretical mean of the distribution.
-For the law of the large number, as the number of simulations increases the experimental mean approaches the theoretical mean of the distribution which should be $mu$ = `r mu`.
-The following graph plots the experimental distribution mean as the number of simulations increases and the $mu$.
+For the Law of Large Numbers, the sample mean will converge to the theorical mean. Since the distribution will be approximated by a Normal distribution with mean $mu$ and standard deviation $sd^2/n$ we do expect the experimental mean to converge to $mu$ as the number of trials increases and the standard deviation to converge to $sd^2/n$.
+
+## Simulations
+Here we run the 1,000 simulations.
 ```{r warning=FALSE}
 sim_data <- 
   data.frame( 
@@ -46,7 +47,11 @@ for(i in 1:nsim){
       )
     )
 }
+```
 
+## Sample Mean versus Theoretical Mean
+The following graph plots the sample mean as the number of simulation increases and the theoretical mean $mu$. As we expect as the number of simulation increases the experimental mean converges to the theoretical mean of the distribution which is $mu$ = `r mu`.
+```{r warning=FALSE, message=FALSE}
 require(ggplot2)
 ggplot(
   data = sim_data, 
@@ -56,35 +61,48 @@ ggplot(
     )
   ) + 
   labs(
+    title = "Sample Mean versus Theoretical Mean",
     x = "# of simulations",
-    y = "mean"
+    y = "Mean"
     ) +
   geom_line(color='darkblue') + 
   geom_hline(aes(yintercept=mu), color='red')
 ```
 
 
-## Show how variable the sample is (via variance) and compare it to the theoretical variance of the distribution.
-As the distribution is approximately Normal with mean $mu$ and variance $sd^2/n$ when the number of simulation increases the variance of the distribution should approach to `r sd^2/n`. This is shown on the next graph.
+## Sample Variance versus Theoretical Variance
+The same happens to the sample variance: it converges to the theoretical variance $sd^2/n$ when the number of simulation increases. This is shown on the next graph.
 
 ```{r warning=FALSE}
 ggplot(
   data = sim_data, 
   aes(x=nsim, y=tvar, colour = tvar)
   ) + 
+  labs(
+    title = "Sample Variance versus Theoretical Variance",
+    x = "# of simulations",
+    y = "Variance"
+  ) +
   geom_line(color='darkblue') + 
   geom_hline(aes(yintercept=sd^2/n), color='red')
 ```
 
-## Show that the distribution is approximately normal.
-For the Central Limit Theorem the distribution should be approximately Normal with (mu, sd^2/n) and, in fact, the following density graph resembles that of a bell curve centered around the mean $mu$.
+## Distribution
+If the distribution is approximately normal with mean $mu$ and standard deviation $sd^2/n$ we do expect we do expect a bell curve shaped density graph centered around  $mu$ = `r mu`. That is what we show on the next graph.
 
 ```{r warning=FALSE}
 ggplot(
   data = sim_data, 
   aes(x=mean)
-  ) + geom_histogram(aes(y=..density..),
+  ) + 
+  labs(
+    title = "Distribution",
+    x = "# of simulations",
+    y = "Density"
+  ) +
+  geom_histogram(aes(y=..density..),
                    binwidth=.5,
                    colour="black", fill="white") +
-    geom_density(alpha=.2, fill="#FF6666")
+  geom_density(alpha=.2, fill="#FF6666") +
+  geom_vline(aes(xintercept=mu), color='red')
 ```
