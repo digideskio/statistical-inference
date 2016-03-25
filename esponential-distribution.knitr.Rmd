@@ -20,7 +20,8 @@ mu <- 1/lambda
 sd <- 1/lambda
 ```
 
-For the Law of Large Numbers, the sample mean will converge to the theorical mean. Since the distribution will be approximated by a Normal distribution with mean $mu$ and standard deviation $sd^2/n$ we do expect the experimental mean to converge to $mu$ as the number of trials increases and the standard deviation to converge to $sd^2/n$.
+For the Law of Large Numbers, the sample mean will converge to the theorical mean. For the Central Limit Theorem the distribution will be approximated by a Normal distribution with mean $mu$ and standard deviation $sd^2/n$.
+Over the next few paragraphs we check the distribution behaves as expected.
 
 ## Simulations
 Here we run the 1,000 simulations.
@@ -50,7 +51,9 @@ for(i in 1:nsim){
 ```
 
 ## Sample Mean versus Theoretical Mean
-The following graph plots the sample mean as the number of simulation increases and the theoretical mean $mu$. As we expect as the number of simulation increases the experimental mean (blue) converges to the theoretical mean (red) of the distribution which is $mu$ = `r mu`.
+We do expect the sample mean to converge to the theoretica mean $mu$ as the number of trials increases.
+
+The following graph plots the sample mean as the number of simulation increases and the theoretical mean $mu$. As we expect, as the number of simulation increases, the experimental mean (blue) converges to the theoretical mean (red) of the distribution which is $mu$ = `r mu`.
 ```{r warning=FALSE, message=FALSE}
 require(ggplot2)
 ggplot(
@@ -72,7 +75,7 @@ ggplot(
 
 
 ## Sample Variance versus Theoretical Variance
-The same happens to the sample variance (blue): it converges to the theoretical variance $sd^2/n$ (red) when the number of simulation increases. This is shown on the next graph.
+In analogy with the mean, we expect the sample variance (blue) to converge to the theoretical variance $sd^2/n$ (red) when the number of simulation increases. This is shown on the next graph.
 
 ```{r warning=FALSE}
 ggplot(
