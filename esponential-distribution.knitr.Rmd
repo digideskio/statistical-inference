@@ -1,5 +1,5 @@
 ---
-title: "Exponential distribution simulation"
+title: "Investigation on the distribution of averages of 40 exponentials"
 author: "Marco Tizzoni"
 date: "25 March 2016"
 output: pdf_document
