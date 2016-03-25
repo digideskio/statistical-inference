@@ -98,7 +98,7 @@ ggplot(
   aes(x=mean)
   ) + 
   labs(
-    title = "Distribution",
+    title = "Density function",
     x = "# of simulations",
     y = "Density"
   ) +
