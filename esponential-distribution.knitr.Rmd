@@ -50,7 +50,7 @@ for(i in 1:nsim){
 ```
 
 ## Sample Mean versus Theoretical Mean
-The following graph plots the sample mean as the number of simulation increases and the theoretical mean $mu$. As we expect as the number of simulation increases the experimental mean converges to the theoretical mean of the distribution which is $mu$ = `r mu`.
+The following graph plots the sample mean as the number of simulation increases and the theoretical mean $mu$. As we expect as the number of simulation increases the experimental mean (blue) converges to the theoretical mean (red) of the distribution which is $mu$ = `r mu`.
 ```{r warning=FALSE, message=FALSE}
 require(ggplot2)
 ggplot(
@@ -65,18 +65,19 @@ ggplot(
     x = "# of simulations",
     y = "Mean"
     ) +
-  geom_line(color='darkblue') + 
+  geom_line(color='darkblue') +
+  geom_hline(aes(yintercept=sim_data$tmean[1000]), color='blue') +
   geom_hline(aes(yintercept=mu), color='red')
 ```
 
 
 ## Sample Variance versus Theoretical Variance
-The same happens to the sample variance: it converges to the theoretical variance $sd^2/n$ when the number of simulation increases. This is shown on the next graph.
+The same happens to the sample variance (blue): it converges to the theoretical variance $sd^2/n$ (red) when the number of simulation increases. This is shown on the next graph.
 
 ```{r warning=FALSE}
 ggplot(
   data = sim_data, 
-  aes(x=nsim, y=tvar, colour = tvar)
+  aes(x=nsim, y=tvar)
   ) + 
   labs(
     title = "Sample Variance versus Theoretical Variance",
@@ -84,11 +85,12 @@ ggplot(
     y = "Variance"
   ) +
   geom_line(color='darkblue') + 
+  geom_hline(aes(yintercept=sim_data$tvar[1000]), color='blue') +
   geom_hline(aes(yintercept=sd^2/n), color='red')
 ```
 
 ## Distribution
-If the distribution is approximately normal with mean $mu$ and standard deviation $sd^2/n$ we do expect we do expect a bell curve shaped density graph centered around  $mu$ = `r mu`. That is what we show on the next graph.
+If the distribution is approximately normal with mean $mu$ and standard deviation $sd^2/n$ we do expect we do expect a bell curve shaped density graph centered around  $mu$ = `r mu` (red). That is what we show on the next graph.
 
 ```{r warning=FALSE}
 ggplot(
@@ -103,6 +105,7 @@ ggplot(
   geom_histogram(aes(y=..density..),
                    binwidth=.5,
                    colour="black", fill="white") +
-  geom_density(alpha=.2, fill="#FF6666") +
+  geom_density(alpha=.2, fill="#6666FF") +
+  geom_vline(aes(xintercept=sim_data$tmean[1000]), color='blue') +
   geom_vline(aes(xintercept=mu), color='red')
 ```
