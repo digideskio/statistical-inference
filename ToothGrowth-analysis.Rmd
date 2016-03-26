@@ -9,11 +9,8 @@ output: pdf_document
 This report investigate the relation between different doses of Vitamin C delivered either by Ascorbid Acid or Orange Juice and the growth of teeth in guinea pigs. 
 Under the assumption that the response (i.e. growth of teeth) follows a t-student distibution we use a t-test to determine whether there is a statistically significant relation between doses/delivery methods and response.
 
-## Dataset description
+# Dataset description
 In this paragraph we describe the ToothGrowth dataset, a dataset to investigate the effect of Vitamin C on tooth growth in guinea pigs.
-```{r}
-str(ToothGrowth)
-```
 
 It has three columns:
 
@@ -21,10 +18,10 @@ It has three columns:
  1. *supp*: delivery method, either VC (Ascorbic Acid) or Orange Juice (OJ);
  1. *dose*: three dose levels of Vitamin C (0.5, 1, and 2 mg).
 
-## Exploratory data analysis
+# Exploratory data analysis
 Figure 1 shows response for dose compared by delivery method. It looks like there is a positive relation between the subministration of ascorbic acid at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo=FALSE, fig.width=6, fig.height=3, fig.align='center'}
 require(ggplot2)
 
 ggplot(ToothGrowth, aes(factor(dose),len)) + 
@@ -37,10 +34,9 @@ ggplot(ToothGrowth, aes(factor(dose),len)) +
   )
 ```
 
-
 Figure 2 shows grooth of teeth for delivery method compared by dose: for doses of 0.5mg and 1.0mg delivery method OJ is more effective compared to VC even though at 2.0mg OJ and VC delivery methods have the same response on average.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo=FALSE, fig.width=6, fig.height=3, fig.align='center'}
 ggplot( ToothGrowth, aes(factor(supp), len) ) + 
   geom_boxplot( aes(fill=supp)) + 
   facet_grid(.~dose) + 
@@ -53,10 +49,10 @@ ggplot( ToothGrowth, aes(factor(supp), len) ) +
 
 
 
-### Summary of the data
+## Summary of the data
 In this section we provide a basic overview of the data computing mean and standard deviation for each dose and delivery method.
 
-```{r warning=FALSE, message=FALSE}
+```{r warning=FALSE, message=FALSE, echo=FALSE}
 require(dplyr)
 
 ToothGrowth %>% 
@@ -64,11 +60,115 @@ ToothGrowth %>%
   summarise(mean = mean(len), sd = sd(len))
 ```
 
-## Key assumptions
+# Key assumptions
 Now we procede with our analysis under the following assumptions:
+
  - Variables must be independent identicaly distributed;
  - Variance of response is different when using different dose/delivery method;
  - Response follows a t-student distibution.
 
-## Confidence intervals/hypotesis testing
-## Do delivery method and/or dosage affect tooth growth in guinea pigs?
+# Confidence intervals/hypotesis testing
+In this section we perform a number of t-test using 95% confidence intervals to answer two questions:
+
+ 1. Is there a statistically significant correlation between subministration of Ascorbic Acid and growth of teeth?
+ 1. Which method is more effective?
+ 
+## Ascorbic Acid is statistically correlated to growth of teeth?
+H0: there is no correlation between subministration increasing doses of Ascorbic Acid and growth of teeth.
+
+### t-test: dose 0.5 vs 1.0
+Since confidence interval is (-11.983781, -6.276219) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+
+### t-test: dose 0.5 vs 2.0
+Since confidence interval is (-18.15617, -12.83383) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+
+### t-test: dose 1.0 vs 2.0
+Since confidence interval is (8.996481, -3.733519) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+
+## Which method is more effective?
+H0: VC delivery method is at least equally effective than OJ.
+
+### t-test: dose 0.5
+Since confidence interval is (1.719057, 8.780943) and it does not include zero **we reject H0: for dose levels 0.5 OJ delivery method is more effective than VC**.
+
+### t-test: dose 1.0
+Since confidence interval is (2.802148, 9.057852) and it does not include zero **we reject H0: for dose levels 0.5 OJ delivery method is more effective than VC**.
+
+### t-test: dose 2.0
+Since confidence interval is (-3.79807, 3.63807) and it does include zero **we accept H0: for dose levels 2.0 VC delivery method is as effective as VC**.
+
+
+# Conclusions
+ 1. There is a positive correlation between the subministration of Ascorbic Acid at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth;
+ 2. at doses of 0.5mg and 1.0mg delivery method OJ is more effective compared to VC even though at 2.0mg OJ and VC delivery methods are comparable.
+ 
+# Appendix
+
+## Dataset description
+```{r}
+str(ToothGrowth)
+```
+
+## H0: there is no correlation between subministration increasing doses of Ascorbic Acid and growth of teeth.
+
+### t-test: dose 0.5 vs 1.0
+```{r}
+t.test( 
+  len ~ dose, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose %in% c(0.5, 1.0))
+)
+```
+
+### t-test: dose 0.5 vs 2.0
+```{r}
+t.test( 
+  len ~ dose, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose %in% c(0.5, 2.0))
+)
+```
+
+### t-test: dose 1.0 vs 2.0
+```{r}
+t.test( 
+  len ~ dose, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose %in% c(1.0, 2.0))
+)
+```
+
+## H0: VC delivery method is at least equally effective than OJ.
+
+### t-test: dose 0.5
+```{r}
+t.test( 
+  len ~ supp, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose == 0.5)
+)
+```
+
+### t-test: dose 1.0
+```{r}
+t.test( 
+  len ~ supp, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose == 1.0)
+)
+```
+
+### t-test: dose 2.0
+```{r}
+t.test( 
+  len ~ supp, 
+  paired = FALSE, 
+  var.equal = FALSE, 
+  data = subset(ToothGrowth, dose == 2.0)
+)
+```
