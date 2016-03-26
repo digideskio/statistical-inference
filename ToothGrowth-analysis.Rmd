@@ -6,53 +6,66 @@ output: pdf_document
 ---
 
 # Overview
+This report investigate the relation between different doses of Vitamin C delivered either by Ascorbid Acid or Orange Juice and the growth of teeth in guinea pigs. 
+Under the assumption that the response (i.e. growth of teeth) follows a t-student distibution we use a t-test to determine whether there is a statistically significant relation between doses/delivery methods and response.
 
 ## Dataset description
-In this paragraph we describe the ToothGrowth dataset, it is a dataset to investigate the effect of Vitamin C on tooth growth in guinea pigs.
+In this paragraph we describe the ToothGrowth dataset, a dataset to investigate the effect of Vitamin C on tooth growth in guinea pigs.
 ```{r}
 str(ToothGrowth)
 ```
 
 It has three columns:
 
- 1. *len*: the response expressed as length of odontoblasts
- 1. *supp*: delivery method, either VC (Vitamin C) or orance Juice (OJ)
- 1. *dose*: three dose levels of Vitamin C (0.5, 1, and 2 mg)
+ 1. *len*: the response expressed as length of odontoblasts;
+ 1. *supp*: delivery method, either VC (Ascorbic Acid) or Orange Juice (OJ);
+ 1. *dose*: three dose levels of Vitamin C (0.5, 1, and 2 mg).
 
 ## Exploratory data analysis
+Figure 1 shows response for dose compared by delivery method. It looks like there is a positive relation between the subministration of ascorbic acid at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth.
+
 ```{r warning=FALSE, message=FALSE}
 require(ggplot2)
-ggplot( ToothGrowth, aes(factor(supp), len) ) + 
-  geom_boxplot( aes(fill=supp)) + 
-  facet_grid(.~dose) + 
-  labs(
-    title="Figure 1: Response for delivery method compared by dose.",
-    x = "Dose",
-    y = "Response"
-  )
-```
 
-```{r}
 ggplot(ToothGrowth, aes(factor(dose),len)) + 
   geom_boxplot( aes(fill=supp)) + 
   facet_grid(.~supp) +
   labs(
-    title="Figure 2: Response for dose compared by delivery method.",
+    title="Figure 1: Response for dose compared by delivery method.",
     x = "Dose",
     y = "Response"
   )
 ```
 
+
+Figure 2 shows grooth of teeth for delivery method compared by dose: for doses of 0.5mg and 1.0mg delivery method OJ is more effective compared to VC even though at 2.0mg OJ and VC delivery methods have the same response on average.
+
+```{r warning=FALSE, message=FALSE}
+ggplot( ToothGrowth, aes(factor(supp), len) ) + 
+  geom_boxplot( aes(fill=supp)) + 
+  facet_grid(.~dose) + 
+  labs(
+    title="Figure 2: Response for delivery method compared by dose.",
+    x = "Dose",
+    y = "Response"
+  )
+```
+
+
+
 ### Summary of the data
+In this section we provide a basic overview of the data computing mean and standard deviation for each dose and delivery method.
+
 ```{r warning=FALSE, message=FALSE}
 require(dplyr)
 
-summary <- ToothGrowth %>% 
+ToothGrowth %>% 
   group_by(supp,dose) %>% 
   summarise(mean = mean(len), sd = sd(len))
 ```
 
 ## Key assumptions
+Now we procede with our analysis under the following assumptions:
  - Variables must be independent identicaly distributed;
  - Variance of response is different when using different dose/delivery method;
  - Response follows a t-student distibution.
