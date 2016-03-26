@@ -6,11 +6,11 @@ output: pdf_document
 ---
 
 # Overview
-This report investigate the relation between different doses of Vitamin C delivered either by Ascorbid Acid or Orange Juice and the growth of teeth in guinea pigs. 
+This report investigates the relation between different doses of Vitamin C delivered either by Ascorbid Acid or Orange Juice and the growth of teeth in guinea pigs. 
 Under the assumption that the response (i.e. growth of teeth) follows a t-student distibution we use a t-test to determine whether there is a statistically significant relation between doses/delivery methods and response.
 
 # Dataset description
-In this paragraph we describe the ToothGrowth dataset, a dataset to investigate the effect of Vitamin C on tooth growth in guinea pigs.
+In this paragraph we describe the ToothGrowth dataset, a dataset to investigate the effect of Vitamin C on growth of teeth in guinea pigs.
 
 It has three columns:
 
@@ -19,7 +19,7 @@ It has three columns:
  1. *dose*: three dose levels of Vitamin C (0.5, 1, and 2 mg).
 
 # Exploratory data analysis
-Figure 1 shows response for dose compared by delivery method. It looks like there is a positive relation between the subministration of ascorbic acid at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth.
+Figure 1 shows response for dose compared by delivery method. It looks like there is a positive relation between the subministration of Vitamin C at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth.
 
 ```{r warning=FALSE, message=FALSE, echo=FALSE, fig.width=6, fig.height=3, fig.align='center'}
 require(ggplot2)
@@ -74,32 +74,32 @@ In this section we perform a number of t-test using 95% confidence intervals to 
  1. Which method is more effective?
  
 ## Ascorbic Acid is statistically correlated to growth of teeth?
-H0: there is no correlation between subministration increasing doses of Ascorbic Acid and growth of teeth.
+H0: there is no correlation between subministration increasing doses of Vitamin C and growth of teeth.
 
 ### t-test: dose 0.5 vs 1.0
-Since confidence interval is (-11.983781, -6.276219) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+Since confidence interval is (-11.983781, -6.276219) and it does not include zero **we reject H0: there is a positive correlation between doses of Vitamin C and growth of teeth**.
 
 ### t-test: dose 0.5 vs 2.0
-Since confidence interval is (-18.15617, -12.83383) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+Since confidence interval is (-18.15617, -12.83383) and it does not include zero **we reject H0: there is a positive correlation between doses of Vitamin C and growth of teeth**.
 
 ### t-test: dose 1.0 vs 2.0
-Since confidence interval is (8.996481, -3.733519) and it does not include zero **we reject H0: there is a positive correlation between doses of Ascorbic Acid and growth of teeth**.
+Since confidence interval is (8.996481, -3.733519) and it does not include zero **we reject H0: there is a positive correlation between doses of Vitamin C and growth of teeth**.
 
 ## Which method is more effective?
 H0: VC delivery method is at least equally effective than OJ.
 
 ### t-test: dose 0.5
-Since confidence interval is (1.719057, 8.780943) and it does not include zero **we reject H0: for dose levels 0.5 OJ delivery method is more effective than VC**.
+Since confidence interval is (1.719057, 8.780943) and it does not include zero **we reject H0: for dose levels 0.5, OJ delivery method is more effective than VC**.
 
 ### t-test: dose 1.0
-Since confidence interval is (2.802148, 9.057852) and it does not include zero **we reject H0: for dose levels 0.5 OJ delivery method is more effective than VC**.
+Since confidence interval is (2.802148, 9.057852) and it does not include zero **we reject H0: for dose levels 0.5, OJ delivery method is more effective than VC**.
 
 ### t-test: dose 2.0
-Since confidence interval is (-3.79807, 3.63807) and it does include zero **we accept H0: for dose levels 2.0 VC delivery method is as effective as VC**.
+Since confidence interval is (-3.79807, 3.63807) and it does include zero **we accept H0: for dose levels 2.0, VC delivery method is as effective as VC**.
 
 
 # Conclusions
- 1. There is a positive correlation between the subministration of Ascorbic Acid at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth;
+ 1. There is a positive correlation between the subministration of Vitamin C at doses of 0.5mg, 1.0mg and 2.0mg doses and growth of teeth;
  2. at doses of 0.5mg and 1.0mg delivery method OJ is more effective compared to VC even though at 2.0mg OJ and VC delivery methods are comparable.
  
 # Appendix
